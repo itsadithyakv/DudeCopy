@@ -9,9 +9,12 @@ function setStatus(message, isError = false) {
   statusEl.className = isError ? "status error" : "status";
 }
 
-function formatDate(value) {
+function formatDateTimeParts(value) {
   const date = new Date(value);
-  return date.toLocaleString();
+  return {
+    date: date.toLocaleDateString(),
+    time: date.toLocaleTimeString()
+  };
 }
 
 function createItemElement(item) {
@@ -20,7 +23,12 @@ function createItemElement(item) {
 
   const meta = document.createElement("div");
   meta.className = "item-meta";
-  meta.textContent = `${item.type || "unknown"} | ${formatDate(item.createdAt)}`;
+  const parts = formatDateTimeParts(item.createdAt);
+  meta.textContent = `Copied on ${parts.date} at ${parts.time}`;
+
+  const metaType = document.createElement("div");
+  metaType.className = "item-meta";
+  metaType.textContent = `Type: ${item.type || "unknown"}`;
 
   const text = document.createElement("div");
   text.className = "item-text";
@@ -37,7 +45,7 @@ function createItemElement(item) {
   });
 
   actions.appendChild(copyButton);
-  node.append(meta, text, actions);
+  node.append(meta, metaType, text, actions);
   return node;
 }
 

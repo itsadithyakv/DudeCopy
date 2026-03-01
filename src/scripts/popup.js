@@ -1,9 +1,12 @@
 const statusEl = document.getElementById("status");
+const modeTextEl = document.getElementById("modeText");
 const unsupportedBadgeEl = document.getElementById("unsupportedBadge");
+const togglePauseBtn = document.getElementById("togglePause");
 const copyReaderBtn = document.getElementById("copyReader");
 const copyAllBtn = document.getElementById("copyAll");
 
 let copySupported = false;
+let isPaused = false;
 
 function setStatus(text, isError = false) {
   statusEl.textContent = text;
@@ -26,13 +29,46 @@ async function getActiveTab() {
   return tab;
 }
 
+function updatePauseUi() {
+  togglePauseBtn.textContent = isPaused ? "Resume Extension" : "Pause Extension";
+  modeTextEl.textContent = isPaused
+    ? "DudeCopy is paused. Resume to enable copy actions."
+    : "Copy readable article text or all visible text from the active page.";
+}
+
 function applyUnsupportedState(unsupported, reason = "") {
   copySupported = !unsupported;
-  copyReaderBtn.disabled = unsupported;
-  copyAllBtn.disabled = unsupported;
   unsupportedBadgeEl.classList.toggle("hidden", !unsupported);
+  getActiveTab()
+    .then((tab) =>
+      chrome.runtime.sendMessage({
+        type: "SET_TAB_UNSUPPORTED",
+        payload: { tabId: tab.id, unsupported }
+      })
+    )
+    .catch(() => null);
   if (unsupported && reason) {
     setStatus(reason, true);
+  }
+  updateActionAvailability();
+}
+
+function updateActionAvailability() {
+  const disableActions = isPaused || !copySupported;
+  copyReaderBtn.disabled = disableActions;
+  copyAllBtn.disabled = disableActions;
+}
+
+async function loadExtensionState() {
+  const response = await chrome.runtime.sendMessage({ type: "GET_EXTENSION_STATE" });
+  if (!response?.ok) {
+    throw new Error(response?.error || "Could not load extension state.");
+  }
+  isPaused = Boolean(response.isPaused);
+  updatePauseUi();
+  updateActionAvailability();
+  if (isPaused) {
+    setStatus("DudeCopy is paused.");
   }
 }
 
@@ -49,7 +85,9 @@ async function detectCopySupport() {
       func: () => true
     });
     applyUnsupportedState(false);
-    setStatus("Ready.");
+    if (!isPaused) {
+      setStatus("Ready.");
+    }
   } catch (error) {
     const raw = String(error?.message || error || "");
     if (raw.includes("ExtensionsSettings policy")) {
@@ -78,6 +116,9 @@ async function ensureContentScript(tabId) {
 
 async function sendToActiveTab(message) {
   const tab = await getActiveTab();
+  if (isPaused) {
+    throw new Error("DudeCopy is paused. Resume extension to continue.");
+  }
   if (!copySupported) {
     throw new Error("Copy actions are unavailable on this tab.");
   }
@@ -136,6 +177,22 @@ async function copyAllText() {
   await addHistory(text, "visible_text");
 }
 
+togglePauseBtn.addEventListener("click", async () => {
+  setStatus("Updating extension mode...");
+  try {
+    const response = await chrome.runtime.sendMessage({ type: "TOGGLE_PAUSE" });
+    if (!response?.ok) {
+      throw new Error(response?.error || "Could not update extension mode.");
+    }
+    isPaused = Boolean(response.isPaused);
+    updatePauseUi();
+    updateActionAvailability();
+    setStatus(isPaused ? "DudeCopy paused." : "DudeCopy resumed.");
+  } catch (error) {
+    setStatus(error?.message || "Unexpected pause/resume error.", true);
+  }
+});
+
 copyReaderBtn.addEventListener("click", async () => {
   setStatus("Copying reader text...");
   try {
@@ -156,7 +213,11 @@ copyAllBtn.addEventListener("click", async () => {
   }
 });
 
-detectCopySupport().catch((error) => {
-  applyUnsupportedState(true, "Unsupported tab for copy actions.");
-  setStatus(error?.message || "Failed to detect tab support.", true);
-});
+Promise.all([loadExtensionState(), detectCopySupport()])
+  .then(() => {
+    updateActionAvailability();
+  })
+  .catch((error) => {
+    applyUnsupportedState(true, "Unsupported tab for copy actions.");
+    setStatus(error?.message || "Failed to initialize popup.", true);
+  });
