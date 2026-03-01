@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>DudeCopy</title>
+    <link rel="stylesheet" href="styles/common.css" />
+    <style>
+      body {
+        width: 360px;
+      }
+    </style>
+  </head>
+  <body>
+    <main class="container grid">
+      <section class="card grid">
+        <div class="header">
+          <h1>DudeCopy</h1>
+          <span id="unsupportedBadge" class="badge hidden">Unsupported Tab</span>
+        </div>
+        <p>Copy readable article text or all visible text from the active page.</p>
+      </section>
+
+      <section class="card actions">
+        <button id="copyReader" class="primary">Copy Text (Reader)</button>
+        <button id="copyAll">Copy All Text</button>
+      </section>
+
+      <section class="card grid">
+        <div id="status" class="status"></div>
+        <div class="row">
+          <a class="small-link" href="history.html" target="_blank" rel="noreferrer">History</a>
+          <a class="small-link" href="options.html" target="_blank" rel="noreferrer">Settings</a>
+        </div>
+      </section>
+    </main>
+    <script type="module" src="scripts/popup.js"></script>
+  </body>
+</html>

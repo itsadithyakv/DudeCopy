@@ -1,0 +1,24 @@
+{
+  "name": "dudecopy",
+  "version": "1.0.0",
+  "description": "DudeCopy is a Chrome Extension for copying readable article text and visible page text with local history.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/itsadithyakv/DudeCopy.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/itsadithyakv/DudeCopy/issues"
+  },
+  "homepage": "https://github.com/itsadithyakv/DudeCopy#readme",
+  "dependencies": {
+    "@mozilla/readability": "^0.6.0"
+  }
+}

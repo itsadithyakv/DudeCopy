@@ -1,0 +1,25 @@
+{
+  "manifest_version": 3,
+  "name": "DudeCopy",
+  "version": "1.0.0",
+  "description": "Copy visible text and readable article text, then manage local copy history.",
+  "permissions": ["activeTab", "scripting", "storage", "tabs", "clipboardWrite"],
+  "host_permissions": ["<all_urls>"],
+  "background": {
+    "service_worker": "src/background.js",
+    "type": "module"
+  },
+  "action": {
+    "default_title": "DudeCopy",
+    "default_popup": "src/popup.html"
+  },
+  "options_page": "src/options.html",
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["src/lib/readability.js", "src/content-script.js"],
+      "run_at": "document_idle"
+    }
+  ],
+  "minimum_chrome_version": "114"
+}

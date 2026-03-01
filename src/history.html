@@ -1,0 +1,27 @@
+﻿<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>DudeCopy History</title>
+    <link rel="stylesheet" href="styles/common.css" />
+  </head>
+  <body>
+    <main class="container grid">
+      <section class="card header">
+        <h1>Copy History</h1>
+        <button id="refresh" class="ghost" style="width:auto;padding:8px 10px;">Refresh</button>
+      </section>
+
+      <section class="card grid">
+        <div class="row">
+          <button id="exportHistory" class="primary">Export History</button>
+          <button id="clearAll">Clear All</button>
+        </div>
+        <div id="status" class="status"></div>
+        <div id="list" class="list"></div>
+      </section>
+    </main>
+    <script src="scripts/history.js"></script>
+  </body>
+</html>
