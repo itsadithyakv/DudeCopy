@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
-  "name": "DudeCopy",
-  "version": "1.0.0",
+  "name": "UnCopy",
+  "version": "1.1.0",
   "description": "Copy visible text and readable article text, then manage local copy history.",
   "permissions": ["activeTab", "scripting", "storage", "tabs", "clipboardWrite"],
   "host_permissions": ["<all_urls>"],
@@ -10,22 +10,21 @@
     "type": "module"
   },
   "icons": {
-    "16": "icons/dudeOn.png",
-    "32": "icons/dudeOn.png",
-    "48": "icons/dudeOn.png",
-    "128": "icons/dudeOn.png"
+    "16": "icons/UncopyLogo-16.png",
+    "32": "icons/UncopyLogo-32.png",
+    "48": "icons/UncopyLogo-48.png",
+    "128": "icons/UncopyLogo-128.png"
   },
   "action": {
-    "default_title": "DudeCopy",
+    "default_title": "UnCopy",
     "default_popup": "src/popup.html",
     "default_icon": {
-      "16": "icons/dudeOn.png",
-      "32": "icons/dudeOn.png",
-      "48": "icons/dudeOn.png",
-      "128": "icons/dudeOn.png"
+      "16": "icons/UncopyLogo-16.png",
+      "32": "icons/UncopyLogo-32.png",
+      "48": "icons/UncopyLogo-48.png",
+      "128": "icons/UncopyLogo-128.png"
     }
   },
-  "options_page": "src/options.html",
   "content_scripts": [
     {
       "matches": ["<all_urls>"],

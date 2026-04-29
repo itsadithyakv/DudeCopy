@@ -1,32 +1,67 @@
-﻿<!doctype html>
+<!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1" />
-    <title>DudeCopy Settings</title>
+    <title>UnCopy Settings</title>
     <link rel="stylesheet" href="styles/common.css" />
   </head>
-  <body>
-    <main class="container grid">
-      <section class="card grid">
-        <h1>DudeCopy Settings</h1>
-        <p>All data is stored in <code>chrome.storage.local</code> on this device.</p>
-      </section>
+  <body class="page-shell">
+    <header class="topbar shell">
+      <div class="brand">
+        <img class="brand-mark" src="../icons/UncopyLogo.png" alt="UnCopy logo" />
+        <div class="brand-wordmark" aria-label="UnCopy">
+          <span class="brand-wordmark-quiet">Un</span><span class="brand-wordmark-accent">Copy</span>
+        </div>
+      </div>
+      <div class="toolbar">
+        <button id="openHistory" class="icon-button" type="button" aria-label="Open history">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 8v5l3 2"></path><path d="M3.05 11A9 9 0 1 1 6 17.3"></path><path d="M3 4v7h7"></path></svg>
+        </button>
+        <button id="themeToggle" class="icon-button" type="button" aria-label="Toggle theme">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 1 0 9.8 9.8Z"></path></svg>
+        </button>
+      </div>
+    </header>
 
-      <section class="card grid">
+    <main class="page-main shell">
+      <div class="page-header">
         <div>
-          <label for="maxHistory">Max history items</label>
-          <input id="maxHistory" class="input" type="number" min="10" max="500" step="10" />
+          <h1 class="page-title">Settings</h1>
+          <p class="page-copy">Keep the default white-and-blue UnCopy theme polished, switch to dark mode when needed, and control local history retention.</p>
         </div>
+      </div>
 
-        <div class="row">
-          <button id="save" class="primary">Save Settings</button>
-          <button id="clearHistory">Clear History</button>
-        </div>
+      <div class="stack-lg">
+        <section class="settings-card settings-list">
+          <div class="field">
+            <label class="field-label" for="maxHistory">Max history items</label>
+            <input id="maxHistory" class="number-input" type="number" min="10" max="500" step="10" />
+            <div class="helper-text">Stored in <code>chrome.storage.local</code>. Values are clamped between 10 and 500.</div>
+          </div>
 
-        <div id="status" class="status"></div>
-      </section>
+          <div class="field">
+            <div class="field-label">Theme</div>
+            <div class="segmented" role="group" aria-label="Theme selection">
+              <button id="themeLight" type="button">Default</button>
+              <button id="themeDark" type="button">Dark</button>
+            </div>
+            <div class="helper-text">Default mode uses white surfaces with the UnCopy accent color #366fbc.</div>
+          </div>
+
+          <div class="actions-row">
+            <button id="save" class="primary-button" type="button">Save Settings</button>
+            <button id="clearHistory" class="ghost-button" type="button">Clear History</button>
+          </div>
+
+          <div id="status" class="status-chip">
+            <span id="statusBadge" class="status-badge"></span>
+            <span class="status-copy">Loading settings...</span>
+          </div>
+        </section>
+      </div>
     </main>
+
     <script src="scripts/options.js"></script>
   </body>
 </html>

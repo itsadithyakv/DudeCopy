@@ -3,40 +3,106 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1" />
-    <title>DudeCopy</title>
+    <title>UnCopy</title>
     <link rel="stylesheet" href="styles/common.css" />
-    <style>
-      body {
-        width: 360px;
-      }
-    </style>
   </head>
-  <body>
-    <main class="container grid">
-      <section class="card grid">
-        <img id="brandBar" class="brand-bar" src="../icons/dudeBar.png" alt="DudeCopy" />
-        <div class="header">
-          <span id="unsupportedBadge" class="badge hidden">Unsupported Tab</span>
-        </div>
-        <div class="pause-wrap">
-          <button id="togglePause" class="pause-btn">Pause Extension</button>
-        </div>
-        <p id="modeText">Copy readable article text or all visible text from the active page.</p>
-      </section>
+  <body class="popup-page page-shell">
+    <header class="topbar">
+      <div class="brand">
+        <img class="brand-bar" src="../icons/UncopyBar.png" alt="UnCopy" />
+      </div>
+      <div class="toolbar">
+        <button id="toggleSettings" class="icon-button" type="button" aria-label="Toggle settings">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 15.5A3.5 3.5 0 1 0 12 8.5A3.5 3.5 0 1 0 12 15.5Z"></path><path d="M19.4 15a1.7 1.7 0 0 0 .34 1.88l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.7 1.7 0 0 0-1.88-.34a1.7 1.7 0 0 0-1 1.55V22a2 2 0 0 1-4 0v-.09a1.7 1.7 0 0 0-1-1.55a1.7 1.7 0 0 0-1.88.34l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.7 1.7 0 0 0 4.6 15a1.7 1.7 0 0 0-1.55-1H3a2 2 0 0 1 0-4h.09a1.7 1.7 0 0 0 1.55-1a1.7 1.7 0 0 0-.34-1.88l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06A1.7 1.7 0 0 0 9 4.6a1.7 1.7 0 0 0 1-1.55V3a2 2 0 0 1 4 0v.09a1.7 1.7 0 0 0 1 1.55a1.7 1.7 0 0 0 1.88-.34l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.7 1.7 0 0 0 19.4 9a1.7 1.7 0 0 0 1.55 1H21a2 2 0 0 1 0 4h-.09a1.7 1.7 0 0 0-1.55 1Z"></path></svg>
+        </button>
+        <button id="themeToggle" class="icon-button" type="button" aria-label="Toggle theme">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 1 0 9.8 9.8Z"></path></svg>
+        </button>
+      </div>
+    </header>
 
-      <section class="card actions">
-        <button id="copyReader" class="primary">Copy Text (Reader)</button>
-        <button id="copyAll">Copy All Text</button>
-      </section>
+    <main class="page-main no-scrollbar">
+      <div class="stack-lg">
+        <section class="hero">
+          <div class="hero-button-wrap">
+            <div class="hero-orbit"></div>
+            <div class="hero-orbit-inner"></div>
+            <button id="enableCopy" class="hero-button" type="button" aria-live="polite" aria-label="Toggle copy enablement">
+              <span id="heroIcon" class="hero-icon"></span>
+              <span id="heroLabel" class="hero-label sr-only">Enable</span>
+            </button>
+          </div>
 
-      <section class="card grid">
-        <div id="status" class="status"></div>
-        <div class="row">
-          <a class="small-link" href="history.html" target="_blank" rel="noreferrer">History</a>
-          <a class="small-link" href="options.html" target="_blank" rel="noreferrer">Settings</a>
-        </div>
-      </section>
+          <div class="hero-copy">
+            <h1 id="statusTitle" class="hero-title">Enable Copy</h1>
+            <div id="heroSite" class="hero-site" hidden>
+              <img id="heroSiteFavicon" class="hero-site-favicon" src="../icons/UncopyLogo.png" alt="" />
+              <span id="heroSiteHost" class="hero-site-host truncate">example.com</span>
+            </div>
+          </div>
+        </section>
+
+        <section class="action-grid">
+          <button id="copyAll" class="action-card" type="button">
+            <span class="action-icon">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="9" y="9" width="10" height="10" rx="2"></rect><path d="M7 15H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h7a2 2 0 0 1 2 2v1"></path></svg>
+            </span>
+            <div><h2 class="action-title">Copy All</h2></div>
+          </button>
+
+          <button id="copyReader" class="action-card" type="button">
+            <span class="action-icon alt">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path><path d="M6.5 17A2.5 2.5 0 0 0 4 19.5V5a2 2 0 0 1 2-2h14v14"></path><path d="M8 7h8"></path><path d="M8 11h8"></path></svg>
+            </span>
+            <div><h2 class="action-title">Reader</h2></div>
+          </button>
+        </section>
+
+        <section id="settingsPanel" class="settings-card settings-list hidden-panel" hidden>
+          <div class="field">
+            <label class="field-label" for="maxHistory">Max history</label>
+            <input id="maxHistory" class="number-input" type="number" min="10" max="500" step="10" />
+          </div>
+          <div class="field">
+            <div class="field-label">Theme</div>
+            <div class="segmented" role="group" aria-label="Theme selection">
+              <button id="themeLight" type="button">Default</button>
+              <button id="themeDark" type="button">Dark</button>
+            </div>
+          </div>
+          <div class="actions-row">
+            <button id="saveSettings" class="primary-button" type="button">Save</button>
+            <button id="clearHistory" class="ghost-button" type="button">Clear</button>
+          </div>
+          <div class="field">
+            <div class="field-label">Auto-enabled</div>
+            <div id="enabledDomainsList" class="domain-list"></div>
+          </div>
+        </section>
+
+        <section class="stack-md">
+          <div class="section-head">
+            <h2 class="section-label">Recent History</h2>
+            <button id="viewAllHistory" class="link-button icon-link" type="button" aria-label="Open full history">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 8v5l3 2"></path><path d="M3.05 11A9 9 0 1 1 6 17.3"></path><path d="M3 4v7h7"></path></svg>
+            </button>
+          </div>
+          <div id="recentHistory" class="recent-list"></div>
+        </section>
+
+        <section class="site-card">
+          <div class="site-logo">
+            <img id="siteFavicon" src="../icons/UncopyLogo.png" alt="" />
+          </div>
+          <div class="site-content">
+            <div class="site-label">Active Site</div>
+            <div id="siteHost" class="site-host truncate">Waiting for tab...</div>
+            <div id="siteTitle" class="site-detail truncate"></div>
+          </div>
+        </section>
+      </div>
     </main>
+
     <script type="module" src="scripts/popup.js"></script>
   </body>
 </html>

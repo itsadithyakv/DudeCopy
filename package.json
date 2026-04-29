@@ -1,7 +1,7 @@
 {
-  "name": "dudecopy",
-  "version": "1.0.0",
-  "description": "DudeCopy is a Chrome Extension for copying readable article text and visible page text with local history.",
+  "name": "uncopy",
+  "version": "1.1.0",
+  "description": "UnCopy is a Chrome Extension for copying readable article text and visible page text with local history.",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"

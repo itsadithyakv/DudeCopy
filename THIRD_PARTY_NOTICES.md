@@ -1,6 +1,6 @@
 # Third-Party Notices
 
-DudeCopy bundles or depends on the following open-source projects:
+UnCopy bundles or depends on the following open-source projects:
 
 - `@mozilla/readability` (Apache-2.0)
 

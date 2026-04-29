@@ -1,27 +1,79 @@
-﻿<!doctype html>
+<!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1" />
-    <title>DudeCopy History</title>
+    <title>UnCopy History</title>
     <link rel="stylesheet" href="styles/common.css" />
   </head>
-  <body>
-    <main class="container grid">
-      <section class="card header">
-        <h1>Copy History</h1>
-        <button id="refresh" class="ghost" style="width:auto;padding:8px 10px;">Refresh</button>
-      </section>
+  <body class="page-shell">
+    <header class="topbar shell">
+      <div class="brand">
+        <img class="brand-bar brand-bar-wide" src="../icons/UncopyBar.png" alt="UnCopy" />
+      </div>
+      <div class="toolbar">
+        <button id="themeToggle" class="icon-button" type="button" aria-label="Toggle theme">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 1 0 9.8 9.8Z"></path></svg>
+        </button>
+      </div>
+    </header>
 
-      <section class="card grid">
-        <div class="row">
-          <button id="exportHistory" class="primary">Export History</button>
-          <button id="clearAll">Clear All</button>
+    <main class="page-main shell">
+      <div class="page-header">
+        <div><h1 class="page-title">Copy History</h1></div>
+        <div class="actions-row">
+          <button id="refresh" class="secondary-button" type="button" aria-label="Refresh history">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12a9 9 0 1 1-2.64-6.36"></path><path d="M21 3v6h-6"></path></svg>
+          </button>
+          <button id="exportHistory" class="primary-button" type="button" aria-label="Export history">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12"></path><path d="m7 10 5 5 5-5"></path><path d="M5 21h14"></path></svg>
+          </button>
+          <button id="clearAll" class="ghost-button" type="button" aria-label="Clear history">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6h18"></path><path d="M8 6V4h8v2"></path><path d="M19 6l-1 14H6L5 6"></path></svg>
+          </button>
         </div>
-        <div id="status" class="status"></div>
-        <div id="list" class="list"></div>
-      </section>
+      </div>
+
+      <div class="stack-lg">
+        <section class="summary-strip">
+          <div class="summary-grid">
+            <div class="summary-cell">
+              <div id="historyCount" class="summary-value">0</div>
+              <div class="summary-caption">Stored Items</div>
+            </div>
+            <div class="summary-cell">
+              <div id="readerCount" class="summary-value">0</div>
+              <div class="summary-caption">Reader</div>
+            </div>
+            <div class="summary-cell">
+              <div id="visibleCount" class="summary-value">0</div>
+              <div class="summary-caption">All Text</div>
+            </div>
+          </div>
+        </section>
+
+        <section class="settings-card settings-list">
+          <div class="split-row">
+            <div class="field" style="flex:1;">
+              <input id="searchInput" class="text-input" type="text" placeholder="Search" />
+            </div>
+            <div class="field history-filter-field">
+              <select id="typeFilter" class="select-input">
+                <option value="all">All</option>
+                <option value="selection">Selection</option>
+                <option value="article">Reader</option>
+                <option value="visible_text">All Text</option>
+              </select>
+            </div>
+          </div>
+        </section>
+
+        <section>
+          <div id="list" class="history-list"></div>
+        </section>
+      </div>
     </main>
+
     <script src="scripts/history.js"></script>
   </body>
 </html>
